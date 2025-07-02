@@ -6,8 +6,18 @@ FROM docker:${DOCKER_VERSION} AS builder
 ARG BUILD_VERSION
 ARG AWS_CLI_VERSION
 
-RUN apk add --no-cache git unzip groff build-base libffi-dev cmake
-RUN git clone --single-branch --depth 1 -b ${AWS_CLI_VERSION} https://github.com/aws/aws-cli.git
+RUN apk add --no-cache \
+    git \
+    unzip \
+    groff \
+    build-base \
+    libffi-dev \
+    cmake \
+    python3 \
+    py3-pip \
+    openssh-client
+
+    RUN git clone --single-branch --depth 1 -b ${AWS_CLI_VERSION} https://github.com/aws/aws-cli.git
 
 RUN cd aws-cli && \
     ./configure --with-install-type=portable-exe --with-download-deps && \
