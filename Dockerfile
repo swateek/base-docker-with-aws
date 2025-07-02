@@ -22,5 +22,3 @@ RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_
     unzip -qq "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
     ./aws/install && \
     rm -rf aws "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
-
-RUN apt-get clean
