@@ -2,34 +2,28 @@ ARG BUILD_VERSION
 ARG DOCKER_VERSION="28.3.0"
 ARG AWS_CLI_VERSION="2.27.47"
 
-FROM docker:${DOCKER_VERSION} AS build-image
+FROM docker:${DOCKER_VERSION} AS builder
 ARG BUILD_VERSION
 ARG AWS_CLI_VERSION
 
-RUN apk update
-RUN apk add --no-cache \
-    curl \
-    unzip \
-    jq \
-    openssh-client \
-    python3 \
-    py3-pip \
-    less \
-    groff \
-    bash \
-    aws-cli
+RUN apk add --no-cache git unzip groff build-base libffi-dev cmake
+RUN git clone --single-branch --depth 1 -b ${AWS_CLI_VERSION} https://github.com/aws/aws-cli.git
+
+RUN cd aws-cli && \
+    ./configure --with-install-type=portable-exe --with-download-deps && \
+    make && \
+    make install
+
+# reduce image size: remove autocomplete and examples
+RUN rm -rf \
+    /usr/local/lib/aws-cli/aws_completer \
+    /usr/local/lib/aws-cli/awscli/data/ac.index \
+    /usr/local/lib/aws-cli/awscli/examples
+RUN find /usr/local/lib/aws-cli/awscli/data -name completions-1*.json -delete
+RUN find /usr/local/lib/aws-cli/awscli/botocore/data -name examples-1.json -delete
+RUN (cd /usr/local/lib/aws-cli; for a in *.so*; do test -f /lib/$a && rm $a; done)
+
+# build the final image
+FROM docker:${DOCKER_VERSION}
+COPY --from=builder /usr/local/lib/aws-cli/ /usr/local/lib/aws-cli/
 RUN ln -s /usr/local/lib/aws-cli/aws /usr/local/bin/aws
-
-# # Install glibc (required by AWS CLI v2)
-# ENV GLIBC_VERSION=2.35-r1
-
-# RUN curl -sSL -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-#     curl -sSL -o /glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
-#     apk add --no-cache /glibc.apk && \
-#     rm -f /glibc.apk
-
-# # Download and install AWS CLI
-# RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
-#     unzip -qq "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
-#     ./aws/install && \
-#     rm -rf aws "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
