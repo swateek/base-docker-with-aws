@@ -15,7 +15,16 @@ RUN apk add --no-cache \
     py3-pip \
     less \
     groff \
-    bash
+    bash \
+    ca-certificates
+
+# Install glibc (required by AWS CLI v2)
+ENV GLIBC_VERSION=2.35-r1
+
+RUN curl -sSL -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    curl -sSL -o /glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
+    apk add --no-cache /glibc.apk && \
+    rm -f /glibc.apk
 
 # Download and install AWS CLI
 RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
