@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     groff \
     bash \
     aws-cli
+RUN ln -s /usr/local/lib/aws-cli/aws /usr/local/bin/aws
 
 # # Install glibc (required by AWS CLI v2)
 # ENV GLIBC_VERSION=2.35-r1
