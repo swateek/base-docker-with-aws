@@ -14,4 +14,4 @@ RUN apk update
 RUN apk search -v aws-cli
 RUN apk add --no-cache \
         jq \
-        aws-cli=${AWS_CLI_VERSION}}
+        aws-cli=${AWS_CLI_VERSION}
