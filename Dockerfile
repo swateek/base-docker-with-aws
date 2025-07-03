@@ -5,15 +5,13 @@ ARG AWS_CLI_VERSION="2.27.47-r0"
 FROM docker:${DOCKER_VERSION} AS builder
 ARG AWS_CLI_VERSION
 
-RUN apk update && \
-    apk add --no-cache \
-        aws-cli \
-        jq
+# RUN apk update && \
+#     apk add --no-cache \
+#         aws-cli \
+#         jq
 
-# RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
-#     unzip -qq "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
-#     ./aws/install --install-dir /aws-cli --bin-dir /aws-cli/bin
-
-# FROM docker:${DOCKER_VERSION}
-# COPY --from=builder /aws-cli /usr/local/aws-cli
-# RUN ln -s /aws-cli/bin/aws /usr/local/bin/aws
+RUN apk update
+RUN apk search -v aws-cli
+RUN apk add --no-cache \
+        jq \
+        aws-cli=${AWS_CLI_VERSION}}
