@@ -4,10 +4,10 @@ An basic docker image to run AWS commands inside.
 
 This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 
-| Package  | Version   |
-| -------- | --------- |
-| `DOCKER` | `28.3.0`  |
-| `AWSCLI` | `2.27.47` |
+| Package  | Version      |
+| -------- | ------------ |
+| `DOCKER` | `28.3.0`     |
+| `AWSCLI` | `2.27.25-r0` |
 
 ## Getting Started
 
