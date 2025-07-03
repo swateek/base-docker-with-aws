@@ -6,7 +6,9 @@ FROM docker:${DOCKER_VERSION} AS builder
 ARG AWS_CLI_VERSION
 
 RUN apk update && \
-    apk add --no-cache aws-cli
+    apk add --no-cache \
+        aws-cli \
+        jq
 
 # RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
 #     unzip -qq "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
