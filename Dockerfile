@@ -9,7 +9,6 @@ RUN apk add --no-cache curl unzip bash
 
 RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
     unzip -qq "awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
-    cd aws && \
     ./aws/install --install-dir /aws-cli --bin-dir /aws-cli/bin
 
 FROM docker:${DOCKER_VERSION}
