@@ -13,4 +13,4 @@ RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_
 
 FROM docker:${DOCKER_VERSION}
 COPY --from=builder /aws-cli /usr/local/aws-cli
-RUN ln -s /usr/local/aws-cli/bin/aws /usr/local/bin/aws
+RUN ln -s /aws-cli/bin/aws /usr/local/bin/aws
