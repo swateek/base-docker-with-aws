@@ -8,7 +8,7 @@ This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 | -------- | ------------ |
 | `DOCKER` | `28.3.0`     |
 | `AWSCLI` | `2.27.25-r0` |
-
+This Docker image now supports multi‑architecture builds for `amd64` and `arm64` platforms.
 ## Getting Started
 
 1. Setting up development environment

@@ -17,7 +17,11 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -46,6 +50,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}, ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
