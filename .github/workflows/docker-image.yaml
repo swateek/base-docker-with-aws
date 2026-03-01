@@ -34,15 +34,15 @@ jobs:
         with:
           images: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}
 
-      # - name: Build and push Docker image (Debug)
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: ./Dockerfile
-      #     platforms: linux/amd64,linux/arm64
-      #     push: true
-      #     tags: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}:latest
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image (Debug)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
 
 
       - name: Build and push Docker image
